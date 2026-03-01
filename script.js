@@ -3001,3 +3001,49 @@ navigator.serviceWorker.addEventListener('controllerchange', () => {
   window.location.reload();
   refreshing = true;
 });
+
+// === CODE XỬ LÝ NÚT TẢI APP PWA ===
+let deferredPrompt;
+const installBtn = document.getElementById('install-app-btn');
+
+// Lắng nghe sự kiện trình duyệt sẵn sàng cho phép cài đặt
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Ngăn trình duyệt tự động hiện thanh thông báo mặc định
+    e.preventDefault();
+    // Lưu lại event để kích hoạt khi người dùng bấm nút
+    deferredPrompt = e;
+    
+    // Hiện nút "Tải App" xịn xò của chúng ta lên (đổi từ none sang flex)
+    if (installBtn) {
+        installBtn.style.display = 'flex';
+    }
+});
+
+// Xử lý khi người dùng bấm vào nút "Tải App"
+if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            // Kích hoạt bảng thông báo cài đặt của hệ điều hành
+            deferredPrompt.prompt();
+            
+            // Chờ người dùng phản hồi (Bấm Cài đặt hay Hủy)
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`Kết quả cài đặt: ${outcome}`);
+            
+            // Xóa event đi vì mỗi event chỉ gọi được 1 lần
+            deferredPrompt = null;
+            
+            // Ẩn nút đi sau khi đã thao tác xong
+            installBtn.style.display = 'none';
+        }
+    });
+}
+
+// Lắng nghe sự kiện khi app đã được cài đặt thành công
+window.addEventListener('appinstalled', () => {
+    // Ẩn nút đi vĩnh viễn
+    if (installBtn) {
+        installBtn.style.display = 'none';
+    }
+    console.log('App Tổ 1 Pro Max đã được cài đặt thành công!');
+});

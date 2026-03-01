@@ -5327,5 +5327,8 @@
             Swal.fire({ title: 'Xóa sự kiện này?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#ff6b6b', confirmButtonText: 'Xóa' }).then((result) => { if (result.isConfirmed) { db.ref(`deadlines/${key}`).remove(); } });
         }
     </script>
+    <button id="install-app-btn" class="hover-target" style="display: none; position: fixed; bottom: 20px; left: 20px; background: #ff6b6b; color: white; border: none; padding: 12px 24px; border-radius: 30px; font-family: 'Nunito', sans-serif; font-weight: bold; font-size: 1rem; box-shadow: 0 4px 15px rgba(255,107,107,0.4); z-index: 9999; cursor: pointer; align-items: center; gap: 8px; transition: transform 0.2s;">
+    <i class="fa-solid fa-download"></i> Tải App Tổ 1
+</button>
 </body>
 </html>
